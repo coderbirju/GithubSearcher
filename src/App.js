@@ -10,10 +10,9 @@ class App extends Component {
   
   render (){
     return (
-      <Fragment className="App">
+      <Fragment>
       <Navbar ></Navbar>
       <Users></Users>
-      <UserItem ></UserItem>
       </Fragment>
     );
   }

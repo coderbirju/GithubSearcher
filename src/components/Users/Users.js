@@ -23,21 +23,31 @@ class Users extends Component {
                 login: 'Raja',
                 avatar_url: 'https://secure.gravatar.com/avatar/25c7c18223fb42a4c6ae1c8db6f50f9b?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png',
                 html_url: 'https://github.com/mojombo'  
-            } 
+            }
         ]
     }
     render() {
+        const {users} = this.state;
+        const test = users.map((user, index) => {
+            console.log(user, index);
+            return (
+                <UserItem key={user.id} user={user} />
+            );
+        })
+        console.log("hmmmmm", test.length);
         return (
-            <div>
-            
-                {this.state.users.map(user => (
-                   <div>
-                    <UserItem key ={ user.id} user ={user}  name="harsh"/>
-                </div>
-                ))}
+            <div style={userStyle}>
+                {test}
             </div>
         )
     }
+}
+
+const userStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gridGap: '1rem'
+
 }
 
 export default Users;
