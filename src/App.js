@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Navbar from './components/layout/Navbar';
 import Users from './components/Users/Users';
 import Search from './components/Users/search';
+import Alert from './components/layout/alert';
 import './App.css';
 import axios from 'axios';
 
@@ -42,6 +43,9 @@ class App extends Component {
     this.setState({
       alert: {  message, dispType }
     })
+
+    setTimeout(()=>{this.setState({alert:null})},5000);
+    console.log(message,',', dispType);
   }
 
   clearUsers = () => {
@@ -57,6 +61,7 @@ class App extends Component {
       <Fragment>
       <Navbar/>
       <div className='container'>
+      <Alert alert={this.state.alert}/>
       <Search 
       searchUser={this.searchUser} 
       clearUsers={this.clearUsers} 
