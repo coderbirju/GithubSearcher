@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
+import alertContext from '../../context/alert/alertContext';
+import githubContext from '../../context/github/githubContext';
 
-const Search = ({ searchUser, showClear, clearUsers, setAlert }) => {
-   const [name, setName] = useState('');
+const Search = () => {
+    const GithubContext = useContext(githubContext);
+    const AlertContext = useContext(alertContext);
+    const [name, setName] = useState('');
+
 
     const onChange = e => {
         setName(e.target.value)
@@ -11,9 +15,9 @@ const Search = ({ searchUser, showClear, clearUsers, setAlert }) => {
    const onSubmit = e => {
         e.preventDefault();
         if(name === ''){
-            setAlert('Please provide a name to search', 'light');
+            AlertContext.setAlert('Please provide a name to search', 'light');
         } else {
-            searchUser(name);
+            GithubContext.searchUser(name);
             setName('');
         }
     }
@@ -23,8 +27,8 @@ const Search = ({ searchUser, showClear, clearUsers, setAlert }) => {
                     <input type='text' name='Search' placeholder='example@cybrilla' value= {name} onChange= {onChange}/>
                     <input type='submit' value='Search' className='btn btn-block btn-dark'/>
                 </form>
-                {showClear? 
-                <button className='btn btn-light btn-block' onClick = {clearUsers}>
+                {GithubContext.users.length > 0 ? 
+                <button className='btn btn-light btn-block' onClick = {GithubContext.clearUsers}>
                    Clear
                 </button>
                 :
@@ -34,11 +38,6 @@ const Search = ({ searchUser, showClear, clearUsers, setAlert }) => {
         )
 }
 
-Search.propTypes = {
-    searchUser: PropTypes.func.isRequired,
-    clearUsers: PropTypes.func.isRequired,
-    showClear: PropTypes.bool.isRequired,
-    setAlert: PropTypes.func.isRequired
-};
+
 
 export default Search
