@@ -1,21 +1,17 @@
-import React, { Component, Fragment  } from 'react'
-import PropTypes from 'prop-types'
-import Spinner from '../layout/spinner';
+import React, {  Fragment, useEffect, useContext  } from 'react'
 import { Link } from 'react-router-dom';
+import Repos from '../repos/Repos';
+import githubContext from '../../context/github/githubContext';
 
-class User extends Component {
-    componentDidMount() {
-        this.props.getUser(this.props.match.params.login);
-    }
-    state = {
-        loading: this.props.loading
-    }
-    static propTypes = {
-        loading: PropTypes.bool,
-        user: PropTypes.object.isRequired,
-        getUser: PropTypes.func.isRequired
-    }
-    render() {
+const User = ({ match}) => {
+    const GithubContext = useContext(githubContext)
+    const { getUser, user, repos, getUserRepos} = GithubContext;
+    useEffect(()=> {
+        getUser(match.params.login);
+        getUserRepos(match.params.login);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
         const {
             company,
             name,
@@ -28,8 +24,9 @@ class User extends Component {
             blog,
             following,
             public_repos,
-            hireable
-        } = this.props.user;
+            hireable,
+            email
+        } = user;
 
         return (
         <Fragment> 
@@ -39,11 +36,12 @@ class User extends Component {
             <div className="card grid-2">
              <div className='all-center'>
                 <img src={avatar_url} className='round-img' alt='' style={{width: '150px'}}/>
-                <h1>Name: {name}</h1>
+                <h3>Name: {name}</h3>
+                <h6>Email: {email}</h6>
                 <div className='badge badge-dark'>Location: {location}</div>
              </div>
               <div>
-                {bio && <><h1>Bio</h1> {bio}</>}
+                <div>{bio && <><h1>Bio</h1> {bio}</>}</div>
                 <a href={html_url} className='btn btn-dark my-1'>Visit github profile</a>
                 <Fragment>
                     <ul>
@@ -69,9 +67,11 @@ class User extends Component {
                     <div className='badge badge-danger'>Public Repos: {public_repos}</div>
                     <div className='badge badge-dark'>empty</div>
             </div>
+            <div >
+                <Repos repos={repos} />
+            </div>
         </Fragment>
         )
-    }
 }
 
 export default User
