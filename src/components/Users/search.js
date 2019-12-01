@@ -4,6 +4,7 @@ import githubContext from '../../context/github/githubContext';
 
 const Search = () => {
     const GithubContext = useContext(githubContext);
+    const {clearUsers} = GithubContext;
     const AlertContext = useContext(alertContext);
     const [name, setName] = useState('');
 
@@ -28,7 +29,7 @@ const Search = () => {
                     <input type='submit' value='Search' className='btn btn-block btn-dark'/>
                 </form>
                 {GithubContext.users.length > 0 ? 
-                <button className='btn btn-light btn-block' onClick = {GithubContext.clearUsers}>
+                <button className='btn btn-light btn-block' onClick = {clearUsers}>
                    Clear
                 </button>
                 :
