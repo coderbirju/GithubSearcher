@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+A Project to read Github APIs and fetch user data. Uses React Context api to mock redux state containers.
+
 ## Available Scripts
 
 In the project directory, you can run:
